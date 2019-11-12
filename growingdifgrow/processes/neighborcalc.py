@@ -38,4 +38,3 @@ def hdist_angle(loc, array, h=15):
     neighx = round(loc[0] + h * math.cos(angle)) % array.shape[0]
     neighy = round(loc[1] + h * math.sin(angle)) % array.shape[1]
     return array[neighx, neighy]
-

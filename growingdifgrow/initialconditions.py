@@ -14,12 +14,14 @@ from math import floor
 def blank(rows, columns):
     """Generates an initial state with all empty cells (filled with 'S')"""
     output = np.empty([rows, columns], dtype=str)
-    return output.fill('S'), np.zeros((rows, columns), dtype=bool)
+    output.fill('S')
+    return output, np.zeros((rows, columns), dtype=bool)
 
 
 def iridophore_band(rows, columns, bandwidth=1):
     """Generates an initial empty state, except for an initial band of iridophores which pre-pattern the system"""
-    output = np.empty([rows, columns], dtype=str).fill('S')
+    output = np.empty([rows, columns], dtype=str)
+    output.fill('S')
     irid = np.zeros([rows, columns], dtype=bool)
     irid[0:bandwidth, :] = True  # Assigns iridophores to a row
     irid = np.roll(irid, floor((rows - bandwidth) / 2), axis=0)  # rotates array so iridophores are in the middle
@@ -28,7 +30,8 @@ def iridophore_band(rows, columns, bandwidth=1):
 
 def random_start(rows, columns, irid_ratio=0):
     """Generates a random starting condition, and a random distribution of iridophores at proportion = irid_ratio"""
-    output = np.empty([rows, columns], dtype=str).fill('S')
+    output = np.empty([rows, columns], dtype=str)
+    output.fill('S')
     rand_array = np.random.rand(rows, columns)
     output[rand_array < 1/3] = 'X'
     output[rand_array > 2/3] = 'M'

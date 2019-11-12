@@ -7,7 +7,9 @@ To change parameters, such as rate constants and lattice size, edit text below p
 Also, will need to set a time limit (Number of cycles through the lattice) until I can program a manual stop.
 """
 
+from datetime import datetime
 import random
+import matplotlib.pyplot as plt
 
 from growingdifgrow.processes import baseprocess, neighborcalc
 from growingdifgrow import initialconditions
@@ -78,8 +80,18 @@ def run_sim(array, irid_array, event_list, probability_list):
     return array
 
 
+def plotter(array):
+    """This function can plot the arrays in a manner similar to the original paper:
+    Yellow pixels are xantophores
+    Black pixels are melanophores
+    White pixels are empty ('S')
+    """
+
+
 if __name__ == '__main__':
+    startTime = datetime.now()
     sim_parameters()
     reaction_rates()
     system, irid, event, prob_list = sim_setup()
     final = run_sim(system, irid, event, prob_list)
+    print(datetime.now() - startTime)

@@ -2,6 +2,9 @@
 Contains function for each "elementary process" defined in the original Differential Growth Paper.
 One of these functions will be called for each event that occurs.
 For the original Differential Growth Paper, see the Resources folder.
+
+Note: This module may go unused, since it is much cheaper to hardcode the simple functions than call them.
+For 1000 iterations, the time was ~6s, whereas for function calling it was ~37 s
 """
 
 

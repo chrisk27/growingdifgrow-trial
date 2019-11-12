@@ -11,7 +11,7 @@ from datetime import datetime
 import random
 import matplotlib.pyplot as plt
 
-from growingdifgrow.processes import baseprocess, neighborcalc
+from growingdifgrow.processes import neighborcalc
 from growingdifgrow import initialconditions
 
 
@@ -21,7 +21,7 @@ def sim_parameters():
     rows = 100  # splitting lattice dimensions to rows and columns in case we don't want a square
     cols = 100
     h = 15  # characteristic distance, should be half of the wavelength
-    iterations = 1000
+    iterations = 10000
 
 
 def reaction_rates():
@@ -59,23 +59,60 @@ def run_sim(array, irid_array, event_list, probability_list):
         for i in range(num_events):
             location = (idx0[i], idx1[i])
             well = array[location]
+
             if events[i] == 'activateM':
-                point = neighborcalc.hdist_angle(location, array, h=h)
-                array[location] = baseprocess.long_birth(well, point, irid_array[location])
+                if (well == 'S') & (~ irid_array[location]):
+                    point = neighborcalc.hdist_angle(location, array, h=h)
+                    if point == 'X':
+                        array[location] = 'M'
+                    else:
+                        break
+                else:
+                    break
+
             elif events[i] == 'killX':
-                neigh = neighborcalc.nearest_neighbor(location, array, size=4)
-                array[location] = baseprocess.short_kill_x(well, neigh)
+                if well == 'M':
+                    neigh = neighborcalc.nearest_neighbor(location, array, size=4)
+                    if neigh == 'X':
+                        array[location] = 'S'
+                    else:
+                        break
+                else:
+                    break
+
             elif events[i] == 'killM':
-                neigh = neighborcalc.nearest_neighbor(location, array, size=4)
-                array[location] = baseprocess.short_kill_m(well, neigh)
+                if well == 'X':
+                    neigh = neighborcalc.nearest_neighbor(location, array, size=4)
+                    if neigh == 'M':
+                        array[location] = 'S'
+                    else:
+                        break
+                else:
+                    break
+
             elif events[i] == 'birthX':
-                array[location] = baseprocess.birth_x(well)
+                if well == 'S':
+                    array[location] = 'X'
+                else:
+                    break
+
             elif events[i] == 'birthM':
-                array[location] = baseprocess.birth_m(well, irid_array[location])
+                if well == 'S':
+                    array[location] = 'M'
+                else:
+                    break
+
             elif events[i] == 'deathX':
-                array[location] = baseprocess.death_x(well)
+                if well == 'X':
+                    array[location] = 'S'
+                else:
+                    break
+
             elif events[i] == 'deathM':
-                array[location] = baseprocess.death_m(well)
+                if well == 'M':
+                    array[location] = 'S'
+                else:
+                    break
 
     return array
 

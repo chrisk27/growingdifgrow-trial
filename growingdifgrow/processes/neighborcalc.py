@@ -14,14 +14,21 @@ import random
 
 def nearest_neighbor(loc, array, size=4):
     """Chooses a random nearest neighbor"""
+    row = array.shape[0]
+    col = array.shape[1]
+    r = loc[0]
+    c = loc[1]
+    left1 = (r - 1) % row
+    right1 = (r - 1) % row
+    down1 = (c - 1) % col
+    up1 = (c - 1) % col
     if size != 4 | size != 8:
         size = 4  # default value. May add 12 functionality later
     if size == 4:
-        neighborlist = [(loc[0] - 1, loc[1]), (loc[0] + 1, loc[1]), (loc[0], loc[1] - 1), (loc[0], loc[1] + 1)]
+        neighborlist = [(left1, c), (right1, c), (r, down1), (r, up1)]
     else:
-        neighborlist = [(loc[0] - 1, loc[1]), (loc[0] + 1, loc[1]), (loc[0], loc[1] - 1), (loc[0], loc[1] + 1),
-                        (loc[0] - 1, loc[1] - 1), (loc[0] - 1, loc[1] + 1), (loc[0] + 1, loc[1] - 1),
-                        (loc[0] + 1, loc[1] + 1)]
+        neighborlist = [(left1, c), (right1, c), (r, down1), (r, up1),
+                        (left1, down1), (left1, up1), (right1, down1), (right1, up1)]
     return array[random.choice(neighborlist)]
 
 

@@ -10,6 +10,7 @@ Common inputs:
 
 import math
 import random
+import numpy as np
 
 
 def nearest_neighbor(loc, array, size=4):
@@ -35,6 +36,6 @@ def nearest_neighbor(loc, array, size=4):
 def hdist_angle(loc, array, h=15):
     """Chooses a random point h away for long range process"""
     angle = random.random() * 2 * math.pi
-    neighx = round(loc[0] + h * math.cos(angle)) % array.shape[0]
-    neighy = round(loc[1] + h * math.sin(angle)) % array.shape[1]
-    return array[neighx, neighy]
+    neighx = np.around(loc[0] + h * math.cos(angle), decimals=0) % array.shape[0]
+    neighy = np.around(loc[1] + h * math.sin(angle), decimals=0) % array.shape[1]
+    return array[int(neighx), int(neighy)]

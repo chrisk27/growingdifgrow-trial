@@ -20,9 +20,9 @@ def nearest_neighbor(loc, array, size=4):
     r = loc[0]
     c = loc[1]
     left1 = (r - 1) % row
-    right1 = (r - 1) % row
+    right1 = (r +1) % row
     down1 = (c - 1) % col
-    up1 = (c - 1) % col
+    up1 = (c + 1) % col
     if size != 4 | size != 8:
         size = 4  # default value. May add 12 functionality later
     if size == 4:
